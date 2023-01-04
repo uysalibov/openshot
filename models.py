@@ -10,8 +10,8 @@ class TokenData(BaseModel):
     username: Union[str, None] = None
 
 class User(BaseModel):
+    id: int
     username: str
-    disabled: Union[bool, None] = None
 
 class UserInDB(User):
     hashed_password: str
