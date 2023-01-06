@@ -5,6 +5,8 @@ from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
+import uuid
+
 from models import User, UserInDB, TokenData
 from database import sel_userByUsername
 
@@ -24,9 +26,10 @@ def get_password_hash(password):
 
 def authenticate_user(username: str, password: str):
     user = sel_userByUsername(username)
+    print(user)
     if not user:
         return False
-    if not verify_password(password, user.hashedPass):
+    if not verify_password(password, user["hashedPass"]):
         return False
     return user
 
@@ -60,4 +63,4 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     print(user)
     if user is None:
         raise credentials_exception
-    return dict(user)
+    return user
