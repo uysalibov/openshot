@@ -6,7 +6,6 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from models import Token, User
 from auth import (
-    fake_users_db,
     authenticate_user,
     ACCESS_TOKEN_EXPIRE_MINUTES,
     create_access_token,

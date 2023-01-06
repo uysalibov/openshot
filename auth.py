@@ -12,15 +12,6 @@ SECRET_KEY = "ede21b654b636786aef0f2ad40d353bf9fd70a54d97252b7d83536bc774de923"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 1440 # one day
 
-
-fake_users_db = {
-    "demo-cloud": {
-        "username": "demo-cloud",
-        "hashed_password": "$2b$12$428DXCQ63mXGy/v5UUHXpelzte5IxHOQmK01FnwNj6ziELNoDf7NK", # demo-password
-        "disabled": False,
-    }
-}
-
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
