@@ -7,8 +7,8 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 import uuid
 
-from models import User, UserInDB, TokenData
-from database import sel_userByUsername
+from models import User, UserInDB, TokenData, ProjectId
+from database import sel_userByUsername, sel_projectById
 
 SECRET_KEY = "ede21b654b636786aef0f2ad40d353bf9fd70a54d97252b7d83536bc774de923"
 ALGORITHM = "HS256"
@@ -64,3 +64,16 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     if user is None:
         raise credentials_exception
     return user
+
+async def check_project_id(project_id: ProjectId = Depends()):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_502_BAD_GATEWAY,
+        detail="Could not validate project_id",
+        headers={"Authorization": "Bearer"},
+    )
+    
+    project = sel_projectById(project_id.project_id)
+    if not project:
+        raise credentials_exception
+    else:
+        return project
