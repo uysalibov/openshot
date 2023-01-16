@@ -1,15 +1,16 @@
 from datetime import datetime, timedelta
 from typing import Union
 import uvicorn
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, HTTPException, status, UploadFile, File
 from fastapi.security import OAuth2PasswordRequestForm
 
-from models import Token, User, Project
+from models import Token, User, Project, ProjectId
 from auth import (
     authenticate_user,
     ACCESS_TOKEN_EXPIRE_MINUTES,
     create_access_token,
-    get_current_user
+    get_current_user,
+    check_project_id
 )
 from database import ins_newProject
 
@@ -39,6 +40,13 @@ async def read_users_me(current_user: User = Depends(get_current_user)):
 async def new_project(current_user: User = Depends(get_current_user), project_details: Project = Depends()):
     r = ins_newProject(project_details, current_user)
     return {"projectId": f"{r}"}
+
+@app.post("/files/new", tags=["files"])
+async def new_file(current_user: User = Depends(get_current_user), file: UploadFile = File(...), project_id: Project = Depends(check_project_id)):
+    filecontent = await file.read()
+    
+    return {"a": file.filename, "b": file.content_type, "c": filecontent}
+    
     
 
         
