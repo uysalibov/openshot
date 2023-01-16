@@ -17,8 +17,19 @@ def sel_userByUsername(username:str):
     q = session.query(User).filter(User.username==username)
     return q[0].__dict__ if q.count() > 0 else None
 
+def sel_projectById(id:str):
+    """
+        Get projects filtered by projectId
+    """
+    session = Session()
+    q = session.query(Projects).filter(Projects.projectId==id)
+    return q[0].__dict__ if q.count() > 0 else None
+
+
 def ins_newProject(request_model: Project, owner: MUser):
-    
+    """
+        Insert a new project
+    """
     session = Session()
     model = request_model.dict()
     name = model.pop("name") # we remove it because our request model and database model have different name
