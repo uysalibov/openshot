@@ -22,3 +22,12 @@ class Projects(Base):
     sample_rate = Column("sample_rate", Integer)
     channels = Column("channels", Integer)
     channels_layout = Column("channels_layout", Integer)
+    
+class Files(Base):
+    __tablename__ = "files"
+    
+    Id = Column("Id", Integer, primary_key=True)
+    userId = Column("userId", Integer)
+    projectId = Column("projectId", String)
+    createdAt = Column("createdAt", String)
+    type = Column("type", Integer)
