@@ -23,3 +23,6 @@ class Project(BaseModel):
 
 class UserInDB(User):
     hashed_password: str
+    
+class ProjectId(BaseModel):
+    project_id: str
